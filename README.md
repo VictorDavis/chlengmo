@@ -1,6 +1,6 @@
 # Character-Level N-Gram Model
 
-[![Unit Tests](https://github.com/VictorDavis/chlengmo/actions/workflows/main.yml/badge.svg)](https://github.com/VictorDavis/chlengmo/actions/workflows/main.yml)
+[![tests](https://github.com/VictorDavis/chlengmo/actions/workflows/tests.yml/badge.svg)](https://github.com/VictorDavis/chlengmo/actions/workflows/tests.yml)
 
 **Chlengmo**: ("Kling-mo") A lean, simple, _fast_ character-level n-gram model. Faster than [NLTK](https://www.nltk.org/api/nltk.lm.html). Zero dependencies.
 
