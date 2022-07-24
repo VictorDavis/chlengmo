@@ -2,6 +2,9 @@
 from collections import Counter
 import random
 
+# internal dependencies
+from .exceptions import ModelNotFittedError
+
 
 class Chlengmo:
     def __init__(self, n: int):
@@ -48,6 +51,17 @@ class Chlengmo:
         # return self, for method chaining
         return self
 
+    @property
+    def is_fitted(self):
+        attributes = [
+            "_int2char",
+            "_char2int",
+            "_base",
+            "_maxinput",
+            "_model",
+        ]
+        return all(hasattr(self, attr) for attr in attributes)
+
     def generate(self, length: int, prompt: str = "", seed: int = None) -> str:
         """
         Generate fake text.
@@ -55,16 +69,12 @@ class Chlengmo:
         :param int length: Length of fake text to generate (in characters).
         :param str prompt: Prompt the fake text with a starting string.
         :param int seed: For pseudo-random number generator, for replicating results.
+        :raise: ModelNotFittedError if model hasn't been fitted yet
         """
 
-        # make sure model is trained
-        assert (
-            self._int2char
-            and self._char2int
-            and self._base
-            and self._maxinput
-            and self._model
-        ), "Model hasn't been fit yet!"
+        # make sure model is fitted
+        if not self.is_fitted:
+            raise ModelNotFittedError("Model hasn't been fitted yet!")
 
         # prepare input
         input = 0
