@@ -7,6 +7,7 @@ from unittest import TestCase
 
 # internal dependencies
 from chlengmo import Chlengmo
+from chlengmo.exceptions import ModelNotFittedError
 
 
 class ChlengmoTest(TestCase):
@@ -110,3 +111,11 @@ class ChlengmoTest(TestCase):
         # chlengmo is >10x faster!
         time_factor = time_elapsed_nltk / time_elapsed_chlengmo
         assert time_factor > 10
+
+    def test_exceptions(self):
+
+        # can't generate text without first fitting model
+        model = Chlengmo(n=3)
+        with self.assertRaises(Exception) as context:
+            model.generate(length=99)
+        assert isinstance(context.exception, ModelNotFittedError)
