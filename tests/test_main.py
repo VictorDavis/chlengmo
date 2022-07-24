@@ -14,8 +14,7 @@ class ChlengmoTest(TestCase):
 
         # retrieve corpus from NLTK
         filename = "melville-moby_dick.txt"
-        words = gutenberg.words(filename)
-        text = " ".join(words)
+        text = gutenberg.raw(filename)
         start = "Call me Ishmael"
         start_idx = text.index(start)
         text = text[start_idx:]
@@ -37,8 +36,7 @@ class ChlengmoTest(TestCase):
 
         # retrieve corpus from NLTK
         filename = "melville-moby_dick.txt"
-        words = gutenberg.words(filename)
-        text = " ".join(words)
+        text = gutenberg.raw(filename)
         start = "Call me Ishmael"
         start_idx = text.index(start)
         text = text[start_idx:]
@@ -64,8 +62,7 @@ class ChlengmoTest(TestCase):
 
         # retrieve corpus from NLTK
         filename = "melville-moby_dick.txt"
-        words = gutenberg.words(filename)
-        text = " ".join(words)
+        text = gutenberg.raw(filename)
         start = "Call me Ishmael"
         start_idx = text.index(start)
         text = text[start_idx:]
