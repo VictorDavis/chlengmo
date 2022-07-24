@@ -17,12 +17,15 @@ Chlengmo(n=15).fit(text).generate(length=981, prompt="Call me ", seed=42)
 ## Unit Tests
 
 ```bash
+# from inside the tests/ subfolder
+cd tests/
+
 # create virtual environment
 virtualenv .venv
 . .venv/bin/activate
 
 # install unit test dependencies
-python3 -m pip install -r tests/requirements.txt
+python3 -m pip install -r requirements.txt
 
 # run unit tests
 pytest
@@ -35,5 +38,32 @@ open htmlcov/index.html
 
 # cleanup
 deactivate
+rm -rf .venv
+```
+
+## Notebooks
+
+REF: https://janakiev.com/blog/jupyter-virtual-envs/
+
+```bash
+# from inside the notebooks/ subfolder
+cd notebooks/
+
+# create virtual environment
+virtualenv .venv
+. .venv/bin/activate
+
+# install notebook dependencies
+python3 -m pip install -r requirements.txt
+
+# create jupyter kernel
+python3 -m pip install ipykernel
+python3 -m ipykernel install --user --name=.venv
+
+# exit virtual environment & run jupyter
+deactivate
+PYTHONPATH=../ jupyter notebook
+
+# cleanup
 rm -rf .venv
 ```
