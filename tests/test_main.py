@@ -119,3 +119,24 @@ class ChlengmoTest(TestCase):
         with self.assertRaises(Exception) as context:
             model.generate(length=99)
         assert isinstance(context.exception, ModelNotFittedError)
+
+    def test_ladder(self):
+
+        # retrieve corpus from NLTK
+        filename = "melville-moby_dick.txt"
+        text = gutenberg.raw(filename)
+        start = "Call me Ishmael"
+        start_idx = text.index(start)
+        text = text[start_idx:]
+
+        # UTIL: create, fit, and use model
+        def bootstrap(n, length, prompt):
+            model = Chlengmo(n=n)
+            model.fit(text)
+            fake_text = model.generate(length=length, prompt=prompt)
+            return fake_text
+
+        # generate fake text from incrementing n-gram models
+        # NOTE: covers special cases n=0, n=1
+        for n in range(25):
+            _ = bootstrap(n, length=999, prompt="Call me ")
