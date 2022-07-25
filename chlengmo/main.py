@@ -1,5 +1,6 @@
 # bloody dependencies
 from collections import Counter
+import math
 import random
 
 # internal dependencies
@@ -71,6 +72,29 @@ class Chlengmo:
             "_model",
         ]
         return all(hasattr(self, attr) for attr in attributes)
+
+    @property
+    def entropy(self):
+
+        # REF: https://www.princeton.edu/~wbialek/rome/refs/shannon_51.pdf
+
+        # n-gram entropy
+        ngram_counts = [
+            count for counts in self._model.values() for count in counts if count > 0
+        ]
+        ngram_total = sum(ngram_counts)
+        ngram_probs = [count / ngram_total for count in ngram_counts]
+        ngram_entropy = -sum([p * math.log2(p) for p in ngram_probs])
+
+        # (n-1)-gram entropy
+        prefix_counts = [sum(counts) for counts in self._model.values()]
+        prefix_total = sum(prefix_counts)
+        prefix_probs = [count / prefix_total for count in prefix_counts]
+        prefix_entropy = -sum([p * math.log2(p) for p in prefix_probs])
+
+        # difference
+        entropy = ngram_entropy - prefix_entropy
+        return entropy
 
     def generate(self, length: int, prompt: str = "", seed: int = None) -> str:
         """
