@@ -14,7 +14,7 @@ class Chlengmo:
         :param int n: N-Gram length.
         """
 
-        self.n = n
+        self.n = abs(int(n))
 
     def fit(self, text: str):
         """
@@ -28,7 +28,17 @@ class Chlengmo:
         self._int2char = [char for char, count in alphabet]
         self._char2int = {char: idx for idx, char in enumerate(self._int2char)}
         self._base = len(alphabet)
-        self._maxinput = self._base ** (self.n - 1)
+        self._maxinput = max(1, self._base ** (self.n - 1))
+
+        # special case: n=0 -> "0-gram" uniform distribution
+        if self.n == 0:
+            self._model = {0: [1] * self._base}
+            return self
+
+        # special case: n=1 -> "1-gram" empirical character-level distribution
+        if self.n == 1:
+            self._model = {0: [count for char, count in alphabet]}
+            return self
 
         # build ngram model data structure
         input = 0
