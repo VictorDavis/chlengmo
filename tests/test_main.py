@@ -134,9 +134,13 @@ class ChlengmoTest(TestCase):
             model = Chlengmo(n=n)
             model.fit(text)
             fake_text = model.generate(length=length, prompt=prompt)
-            return fake_text
+            return fake_text, model.entropy
 
         # generate fake text from incrementing n-gram models
         # NOTE: covers special cases n=0, n=1
-        for n in range(25):
-            _ = bootstrap(n, length=999, prompt="Call me ")
+        previous_entropy = None
+        for n in range(9):
+            fake_text, model_entropy = bootstrap(n, length=999, prompt="Call me ")
+            if previous_entropy:
+                assert model_entropy < previous_entropy
+            previous_entropy = model_entropy
